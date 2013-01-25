@@ -17,11 +17,10 @@
 удален заголовок.
 
 ### Usage:
-``
-source("weathe.R")
-yplot(2006)
-yplot(2009:2011)
-``
+    > source("weathe.R")
+    > yplot(2006)
+    > yplot(2009:2011)
+
 
 ## Задача 2
 
