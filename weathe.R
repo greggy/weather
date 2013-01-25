@@ -15,7 +15,7 @@ yplot <- function(years, pres = FALSE){
     
     plot(nt[,1], nt[,2], type = "l", col = "blue", ylim = c(-30, 40), xaxt = "n",
          main = sprintf("Temperate for %d Year", year),
-         xlab = "", ylab = "Temperate Rank")
+         xlab = "", ylab = "Temperate")
     legend("topright", c("Night", "Day", "Pressure"), lty = c(1, 1, 1),
            col = c("blue", "red", "green"))
     points(dt[,1], dt[,2], type = "l", col = "red")
@@ -50,6 +50,7 @@ yplot <- function(years, pres = FALSE){
            ylim = c(710, 780), axes = FALSE, xaxt = "n")
       
       axis(4, pretty(seq(710, 780, 5)), col = "green")
+      mtext("Pressure", 4, cex = 0.7)
     }
   }
 }
