@@ -1,7 +1,7 @@
 yplot <- function(years, pres = FALSE){
   ## Get data of the year and render plots
   
-  par(mfrow = c(length(years), 1), mai = c(1.2, 1, 0.5, 1))
+  par(mfrow = c(length(years), 1), mai = c(1.2, 1, 0.7, 1))
   
   for(year in years){
     data <- read.csv(sprintf("data/rp5_vladimir%d.csv", year),
@@ -19,6 +19,16 @@ yplot <- function(years, pres = FALSE){
     legend("topright", c("Night", "Day", "Pressure"), lty = c(1, 1, 1),
            col = c("blue", "red", "green"))
     points(dt[,1], dt[,2], type = "l", col = "red")
+    
+    ## horizontal line 10C
+    abline(h = 10, lty = 2, lheight = 0.5)
+    
+    ## vertical lines at the begginning of months
+    nm <- data[grep("-01 13:00", data[,1]),][,1]
+    nm <- c(nm, data[1,1]) ## add last entry of december
+    for(d in nm) {
+      abline(v = d, lty = 2, lwd = 0.2)
+    }
     
     ## axis
     ms <- split(data, months(data[,1]))

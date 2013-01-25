@@ -30,7 +30,7 @@
 ### Usage:
     > source("weathe.R")
     > yplot(2006, pres = TRUE)
-    > yplot(2009:2011, = TRUE)
+    > yplot(2009:2011, TRUE)
 
 
 ### Задача 3
