@@ -1,5 +1,9 @@
-yplot <- function(years, pres = FALSE){
+yplot <- function(years, pres = FALSE, hum = FALSE){
   ## Get data of the year and render plots
+  day.col <- "red"
+  night.col <- "blue"
+  pres.col <- "green"
+  hum.col <- "grey"
   
   par(mfrow = c(length(years), 1), mai = c(1.2, 1, 0.7, 1))
   
@@ -8,17 +12,32 @@ yplot <- function(years, pres = FALSE){
                      colClasses = "character", sep = ";")
     data[,1] <- as.POSIXct(data[,1], format = "%d.%m.%Y %H:%M")
     data[,2] <- as.numeric(data[,2])
-    data[,3] <- as.numeric(data[,3])
+    data[,4] <- as.numeric(data[,4]) ## pressure
+    data[,6] <- as.numeric(data[,6]) ## humidity
     
     nt <- data[grep("01:00", data[,1]),]
     dt <- data[grep("13:00", data[,1]),]
     
-    plot(nt[,1], nt[,2], type = "l", col = "blue", ylim = c(-30, 40), xaxt = "n",
-         main = sprintf("Temperate for %d Year", year),
-         xlab = "", ylab = "Temperate")
-    legend("topright", c("Night", "Day", "Pressure"), lty = c(1, 1, 1),
-           col = c("blue", "red", "green"))
-    points(dt[,1], dt[,2], type = "l", col = "red")
+    plot(nt[,1], nt[,2], type = "l", col = night.col, ylim = c(-30, 40), xaxt = "n",
+         main = sprintf("Temperature for %d Year", year),
+         xlab = "", ylab = "Temperature")
+    points(dt[,1], dt[,2], type = "l", col = day.col)
+    
+    ## legends
+    leg.names <- c("Night", "Day")
+    leg.lty <- c(1, 1)
+    leg.col <- c(night.col, day.col)
+    if(pres) {
+      leg.names <- c(leg.names, "Pressure")
+      leg.lty <- c(leg.lty, 1)
+      leg.col <- c(leg.col, pres.col)
+    }
+    if(hum) {
+      leg.names <- c(leg.names, "Humidity")
+      leg.lty <- c(leg.lty, 1)
+      leg.col <- c(leg.col, hum.col)
+    }
+    legend("topright", leg.names, lty = leg.lty, col = leg.col)
     
     ## horizontal line 10C
     abline(h = 10, lty = 2, lheight = 0.5)
@@ -46,11 +65,34 @@ yplot <- function(years, pres = FALSE){
     ## pressure
     if(pres) {
       par(new = TRUE)
-      plot(data[,1], data[,3], type = "l", col = "green", ylab = "", xlab = "",
-           ylim = c(710, 780), axes = FALSE, xaxt = "n")
+      plot(data[,1], data[,4], type = "l", col = pres.col, ylab = "", xlab = "",
+           ylim = c(700, 800), axes = FALSE, xaxt = "n")
       
-      axis(4, pretty(seq(710, 780, 5)), col = "green")
-      mtext("Pressure", 4, cex = 0.7)
+      axis(4, col = pres.col)
+      mtext("Pressure", 4)
     }
+    
+    ## humidity
+    if(hum) {
+      ## try to computate mean for every day
+      days <- format(seq(data[,1][nrow(data)], data[,1][1], "day"), "%Y-%m-%d")
+      means <- c()
+      for(x in days) {
+        means <- c(means, mean(data[grep(x, data[,1]), 6], na.rm = TRUE))
+      }
+      dh <- data.frame(date = days, means = means)
+      
+      par(new = TRUE)
+      plot(dh[,1], dh[,2], type = "l", col = hum.col, ylab = "", xlab = "",
+           ylim = c(20, 100), axes = FALSE, xaxt = "n")
+      
+      if(pres) {
+        axis(4, col = hum.col, line = 2)
+        mtext("Humidity", 4, line = 2)
+      } else {
+        axis(4, col = hum.col)
+        mtext("Humidity", 4)  
+      }
+    }    
   }
 }
