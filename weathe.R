@@ -14,8 +14,8 @@ yplot <- function(years, pres = FALSE){
     dt <- data[grep("13:00", data[,1]),]
     
     plot(nt[,1], nt[,2], type = "l", col = "blue", ylim = c(-30, 40), xaxt = "n",
-         main = sprintf("Temperate for %d Year", year),
-         xlab = "", ylab = "Temperate")
+         main = sprintf("Temperature for %d Year", year),
+         xlab = "", ylab = "Temperature")
     legend("topright", c("Night", "Day", "Pressure"), lty = c(1, 1, 1),
            col = c("blue", "red", "green"))
     points(dt[,1], dt[,2], type = "l", col = "red")
