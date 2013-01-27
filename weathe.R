@@ -31,7 +31,7 @@ yplot <- function(years, pres = FALSE, hum = FALSE){
       leg.names <- c(leg.names, "Pressure")
       leg.lty <- c(leg.lty, 1)
       leg.col <- c(leg.col, pres.col)
-    }
+  }
     if(hum) {
       leg.names <- c(leg.names, "Humidity")
       leg.lty <- c(leg.lty, 1)
