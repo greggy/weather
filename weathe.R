@@ -69,7 +69,7 @@ yplot <- function(years, pres = FALSE, hum = FALSE){
            ylim = c(700, 800), axes = FALSE, xaxt = "n")
       
       axis(4, col = pres.col)
-      mtext("Pressure", 4)
+      mtext("Pressure", 4, cex = 0.7)
     }
     
     ## humidity
@@ -88,10 +88,10 @@ yplot <- function(years, pres = FALSE, hum = FALSE){
       
       if(pres) {
         axis(4, col = hum.col, line = 2)
-        mtext("Humidity", 4, line = 2)
+        mtext("Humidity", 4, line = 2, cex = 0.7)
       } else {
         axis(4, col = hum.col)
-        mtext("Humidity", 4)  
+        mtext("Humidity", 4, cex = 0.7)
       }
     }    
   }
